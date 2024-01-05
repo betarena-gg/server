@@ -80,12 +80,12 @@ app.use('/api/notifies', Notify);
 
 
 app.get("/", (req, res)=>{
-  res.send("Welcome to Dotplayplay backend server");
+  res.send("Welcome to Betarena backend server");
 })
 
 mongoose.set('strictQuery', false);
-// const dbUri = `mongodb+srv://highscoreteh:eNiIQbm4ZMSor8VL@cluster0.xmpkpjc.mongodb.net/main_page?retryWrites=true&w=majority`
-const dbUri = `mongodb://localhost:27017/dpp`;
+// const dbUri = `mongodb+srv://betarena:Q0F7cWPrWgBNxbLD@cluster0.pz1a4xo.mongodb.net/betarena?retryWrites=true&w=majority`
+const dbUri = `mongodb://localhost:27017/betarena`;
 mongoose.connect(dbUri, { useNewUrlParser: true,  useUnifiedTopology: true })
     .then((result)=>  console.log('Database connected'))
     .catch((err)=> console.log(err))
