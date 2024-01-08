@@ -3,8 +3,13 @@ const minesEncrypt = require("../model/mine_encrypt")
 const { format } = require('date-fns');
 const minesgameInit = require('../model/minesgameInit');
 const currentTime = format(new Date(), 'yyyy-MM-dd HH:mm:ss');
-const PPFWallet = require("../model/PPF-wallet")
 const USDTWallet = require("../model/Usdt-wallet")
+const BTCWallet = require("../model/btc-wallet")
+const ETHWallet = require("../model/eth-wallet")
+const TRXWallet = require("../model/trx-wallet")
+const DOGEWallet = require("../model/doge-wallet")
+const LTCWallet = require("../model/ltc-wallet")
+const BNBWallet = require("../model/bnb-wallet")
 const salt = 'Qede00000000000w00wd001bw4dc6a1e86083f95500b096231436e9b25cbdd0075c4';
 
 function getResult(hash) {
@@ -46,11 +51,26 @@ function main (serverSeed, clientSeed, nonce) {
 } 
 
 const updateUserWallet = (async(data)=>{
-    if(data.coin_name === "PPF"){
-     await PPFWallet.updateOne({ user_id:data.user_id }, {balance: data.balance });
+    if(data.coin_name === "ETH"){
+     await ETHWallet.updateOne({ user_id:data.user_id }, {balance: data.balance });
     }
     if(data.coin_name === "USDT"){
       await USDTWallet.updateOne({ user_id:data.user_id }, {balance: data.balance });
+    }
+    if(data.coin_name === "BNB"){
+      await BNBWallet.updateOne({ user_id:data.user_id }, {balance: data.balance });
+    }
+    if(data.coin_name === "TRX"){
+      await TRXWallet.updateOne({ user_id:data.user_id }, {balance: data.balance });
+    }
+    if(data.coin_name === "DOGE"){
+      await DOGEWallet.updateOne({ user_id:data.user_id }, {balance: data.balance });
+    }
+    if(data.coin_name === "LTC"){
+      await LTCWallet.updateOne({ user_id:data.user_id }, {balance: data.balance });
+    }
+    if(data.coin_name === "BTC"){
+      await BTCWallet.updateOne({ user_id:data.user_id }, {balance: data.balance });
     }
 })
 

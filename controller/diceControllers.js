@@ -4,7 +4,13 @@ const DiceEncription = require("../model/dice_encryped_seeds")
 const DiceGame = require("../model/dice_game")
 const Wallet = require("../model/wallet")
 const USDTWallet = require("../model/Usdt-wallet")
-const PPFWallet = require("../model/PPF-wallet")
+const BTCWallet = require("../model/btc-wallet")
+const ETHWallet = require("../model/eth-wallet")
+const TRXWallet = require("../model/trx-wallet")
+const DOGEWallet = require("../model/doge-wallet")
+const LTCWallet = require("../model/ltc-wallet")
+const BNBWallet = require("../model/bnb-wallet")
+
 
 let nonce = 0
 let maxRange = 100
@@ -24,11 +30,26 @@ function generateRandomNumber(serverSeed, clientSeed, hash) {
 
 const updateUserWallet = (async (data) => {
   await Wallet.updateOne({ user_id: data.user_id }, { balance: data.current_amount });
-  if (data.bet_token_name === "PPF") {
-    await PPFWallet.updateOne({ user_id: data.user_id }, { balance: data.current_amount });
+  if (data.bet_token_name === "BTC") {
+    await BTCWallet.updateOne({ user_id: data.user_id }, { balance: data.current_amount });
   }
   else if (data.bet_token_name === "USDT") {
     await USDTWallet.updateOne({ user_id: data.user_id }, { balance: data.current_amount });
+  }
+  else if (data.bet_token_name === "LTC") {
+    await LTCWallet.updateOne({ user_id: data.user_id }, { balance: data.current_amount });
+  }
+  else if (data.bet_token_name === "BNB") {
+    await BNBWallet.updateOne({ user_id: data.user_id }, { balance: data.current_amount });
+  }
+  else if (data.bet_token_name === "DOGE") {
+    await DOGEWallet.updateOne({ user_id: data.user_id }, { balance: data.current_amount });
+  }
+  else if (data.bet_token_name === "ETH") {
+    await ETHWallet.updateOne({ user_id: data.user_id }, { balance: data.current_amount });
+  }
+  else if (data.bet_token_name === "TRX") {
+    await TRXWallet.updateOne({ user_id: data.user_id }, { balance: data.current_amount });
   }
 })
 

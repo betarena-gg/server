@@ -4,11 +4,17 @@ const axios = require("axios");
 const salt = 'Qede00000000000w00wd001bw4dc6a1e86083f95500b096231436e9b25cbdd0075c4';
 const DiceGame = require("../model/dice_game");
 const DiceEncrypt = require("../model/dice_encryped_seeds");
-const PPFWallet = require("../model/PPF-wallet");
-const USDTWallet = require("../model/Usdt-wallet");
+const USDTWallet = require("../model/Usdt-wallet")
+const BTCWallet = require("../model/btc-wallet")
+const ETHWallet = require("../model/eth-wallet")
+const TRXWallet = require("../model/trx-wallet")
+const DOGEWallet = require("../model/doge-wallet")
+const LTCWallet = require("../model/ltc-wallet")
+const BNBWallet = require("../model/bnb-wallet")
 const Chats = require("../model/public-chat");
-const { handleWagerIncrease } = require("../profile_mangement/index");
+// const { handleWagerIncrease } = require("../profile_mangement/index");
 const Bills = require("../model/bill");
+const { CrashGameEngine } = require("../controller/crashControllers");
 const { handleHiloBet, handleHiloNextRound, handleHiloCashout, initHiloGame } = require("../controller/hiloController");
 
 const minesgameInit = require('../model/minesgameInit');
@@ -21,6 +27,12 @@ async function createsocket(httpServer) {
             origin: ["http://localhost:5173", "http://localhost:5174", "https://dotplayplay.netlify.app"]
         }
     });
+
+     //Crash Game
+     new CrashGameEngine(io).run().catch(err => {
+        console.log("Crash Game failed to start ::> ", err);
+    });
+
 
     // let fghhs = await DiceGame.find()
     let activeplayers = []
@@ -45,9 +57,9 @@ async function createsocket(httpServer) {
         //Get New Bet and Update Latest Bet UI
         latestBetUpdate(events, "Dice Game")
         try {
-            if (events.token !== "PPF") {
-                handleWagerIncrease(events)
-            }
+            // if (events.token !== "PPF") {
+            //     handleWagerIncrease(events)
+            // }
             let result = await DiceGame.create(events)
             if (result) {
                 io.emit("dice-troo", [result])
@@ -75,20 +87,20 @@ async function createsocket(httpServer) {
             await DiceEncrypt.updateOne({ user_id: data.user_id }, {
                 nonce: parseFloat(data.nonce) + 1
             })
-            if (data.token === "PPF") {
-                let sjj = await PPFWallet.find({ user_id: data.user_id })
+            if (data.token === "BTC") {
+                let sjj = await BTCWallet.find({ user_id: data.user_id })
                 let prev_bal = parseFloat(sjj[0].balance)
                 let wining_amount = parseFloat(data.wining_amount)
                 let bet_amount = parseFloat(data.bet_amount)
                 if (data.has_won) {
                     let current_amount = prev_bal + wining_amount
                     io.emit("dice-wallet", [{ ...data, current_amount }])
-                    await PPFWallet.updateOne({ user_id: data.user_id }, { balance: current_amount });
+                    await BTCWallet.updateOne({ user_id: data.user_id }, { balance: current_amount });
                 }
                 else {
                     let current_amount = prev_bal - bet_amount
                     io.emit("dice-wallet", [{ ...data, current_amount }])
-                    await PPFWallet.updateOne({ user_id: data.user_id }, { balance: prev_bal - bet_amount });
+                    await BTCWallet.updateOne({ user_id: data.user_id }, { balance: prev_bal - bet_amount });
                 }
             }
             else if (data.token === "USDT") {
@@ -105,6 +117,86 @@ async function createsocket(httpServer) {
                     let current_amount = prev_bal - bet_amount
                     io.emit("dice-wallet", [{ ...data, current_amount }])
                     await USDTWallet.updateOne({ user_id: data.user_id }, { balance: current_amount });
+                }
+            }
+            else if (data.token === "TRX") {
+                let sjj = await TRXWallet.find({ user_id: data.user_id })
+                let prev_bal = parseFloat(sjj[0].balance)
+                let wining_amount = parseFloat(data.wining_amount)
+                let bet_amount = parseFloat(data.bet_amount)
+                if (data.has_won) {
+                    let current_amount = prev_bal + wining_amount
+                    io.emit("dice-wallet", [{ ...data, current_amount }])
+                    await TRXWallet.updateOne({ user_id: data.user_id }, { balance: prev_bal + wining_amount });
+                }
+                else {
+                    let current_amount = prev_bal - bet_amount
+                    io.emit("dice-wallet", [{ ...data, current_amount }])
+                    await TRXWallet.updateOne({ user_id: data.user_id }, { balance: current_amount });
+                }
+            }
+            else if (data.token === "DOGE") {
+                let sjj = await TRXWallet.find({ user_id: data.user_id })
+                let prev_bal = parseFloat(sjj[0].balance)
+                let wining_amount = parseFloat(data.wining_amount)
+                let bet_amount = parseFloat(data.bet_amount)
+                if (data.has_won) {
+                    let current_amount = prev_bal + wining_amount
+                    io.emit("dice-wallet", [{ ...data, current_amount }])
+                    await DOGEWallet.updateOne({ user_id: data.user_id }, { balance: prev_bal + wining_amount });
+                }
+                else {
+                    let current_amount = prev_bal - bet_amount
+                    io.emit("dice-wallet", [{ ...data, current_amount }])
+                    await DOGEWallet.updateOne({ user_id: data.user_id }, { balance: current_amount });
+                }
+            }
+            else if (data.token === "BNB") {
+                let sjj = await TRXWallet.find({ user_id: data.user_id })
+                let prev_bal = parseFloat(sjj[0].balance)
+                let wining_amount = parseFloat(data.wining_amount)
+                let bet_amount = parseFloat(data.bet_amount)
+                if (data.has_won) {
+                    let current_amount = prev_bal + wining_amount
+                    io.emit("dice-wallet", [{ ...data, current_amount }])
+                    await BNBWallet.updateOne({ user_id: data.user_id }, { balance: prev_bal + wining_amount });
+                }
+                else {
+                    let current_amount = prev_bal - bet_amount
+                    io.emit("dice-wallet", [{ ...data, current_amount }])
+                    await BNBWallet.updateOne({ user_id: data.user_id }, { balance: current_amount });
+                }
+            }
+            else if (data.token === "LTC") {
+                let sjj = await TRXWallet.find({ user_id: data.user_id })
+                let prev_bal = parseFloat(sjj[0].balance)
+                let wining_amount = parseFloat(data.wining_amount)
+                let bet_amount = parseFloat(data.bet_amount)
+                if (data.has_won) {
+                    let current_amount = prev_bal + wining_amount
+                    io.emit("dice-wallet", [{ ...data, current_amount }])
+                    await LTCWallet.updateOne({ user_id: data.user_id }, { balance: prev_bal + wining_amount });
+                }
+                else {
+                    let current_amount = prev_bal - bet_amount
+                    io.emit("dice-wallet", [{ ...data, current_amount }])
+                    await LTCWallet.updateOne({ user_id: data.user_id }, { balance: current_amount });
+                }
+            }
+            else if (data.token === "ETH") {
+                let sjj = await TRXWallet.find({ user_id: data.user_id })
+                let prev_bal = parseFloat(sjj[0].balance)
+                let wining_amount = parseFloat(data.wining_amount)
+                let bet_amount = parseFloat(data.bet_amount)
+                if (data.has_won) {
+                    let current_amount = prev_bal + wining_amount
+                    io.emit("dice-wallet", [{ ...data, current_amount }])
+                    await ETHWallet.updateOne({ user_id: data.user_id }, { balance: prev_bal + wining_amount });
+                }
+                else {
+                    let current_amount = prev_bal - bet_amount
+                    io.emit("dice-wallet", [{ ...data, current_amount }])
+                    await ETHWallet.updateOne({ user_id: data.user_id }, { balance: current_amount });
                 }
             }
         }

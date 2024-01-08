@@ -2,36 +2,36 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require('mongoose');
 const AllPLays = require("./routes/admin/PLayers/crashPlayers");
-const Transaction = require("./routes/transactions.js");
+// const Transaction = require("./routes/transactions.js");
 const Stats = require("./routes/admin/statistic/statistics");
 const Statistics = require("./routes/statistic.js");
 const Affiliate = require("./routes/affiliate");
 const CrashGame = require("./routes/crashgame.js");
 const User = require("./routes/Users.js");
-const Admin = require("./routes/admin.js");
+// const Admin = require("./routes/admin.js");
 const Promotion = require("./routes/promotion.js");
 const Profile = require("./routes/Profile.js");
 const Chat = require("./routes/chat");
 const Notify = require("./routes/notify.js")
 // require("./controller/lotteryEngine.js");
 // require("./controller/cronScheduler.js");
-require("./controller/rainCronScheduller.js")
+// require("./controller/rainCronScheduller.js")
 const minegame = require("./routes/mines");
 const Wallet = require("./routes/wallet.js");
 const diceGame = require("./routes/diceGame");
 const Deposit = require("./routes/deposit");
 const Withdraw = require("./routes/withdraw")
 const Bonus = require('./routes/bonus');
-const Lottery = require('./routes/lottery');
+// const Lottery = require('./routes/lottery');
 const HiloGame = require('./routes/hiloGame.js');
-const TransactionHistory = require("./routes/transactionHistory.js");
+// const TransactionHistory = require("./routes/transactionHistory.js");
 const homePageUpdates = require("./routes/homePageUpdates");
 const { createsocket } = require("./socket/index.js");
 const { createServer } = require("node:http");
 
 // //Test
-const {testCashback} = require("./profile_mangement/week_cashback")
-const { testResetCashback } = require("./profile_mangement/rechargebonus")
+// const {testCashback} = require("./profile_mangement/week_cashback")
+// const { testResetCashback } = require("./profile_mangement/rechargebonus")
 
 require("dotenv").config();
 // // ============ Initilize the app ========================
@@ -61,20 +61,20 @@ app.use("/api/withdraw", Withdraw);
 app.use("/api/cashback", Bonus);
 app.use("/api/stats", Stats);
 app.use("/api/statistics", Statistics);
-app.use("/api/transaction", Transaction);
-app.use("/api/lottery", Lottery);
-app.use("/api/transaction-history", TransactionHistory);
+// app.use("/api/transaction", Transaction);
+// app.use("/api/lottery", Lottery);
+// app.use("/api/transaction-history", TransactionHistory);
 app.use("/admin/all-players", AllPLays);
 app.use("/api/home-page-updates", homePageUpdates);
 app.use('/api/promotion', Promotion);
 
 //TODO: REMOVE
-app.post("/api/test-cashback", testCashback);
+// app.post("/api/test-cashback", testCashback);
 //TODO: REMOVE
-app.post("/api/deactivate-recharge", testResetCashback)
+// app.post("/api/deactivate-recharge", testResetCashback)
 
 //admin routes
-app.use('/admin', Admin);
+// app.use('/admin', Admin);
 //Notification
 app.use('/api/notifies', Notify);
 
@@ -83,9 +83,10 @@ app.get("/", (req, res)=>{
   res.send("Welcome to Betarena backend server");
 })
 
-mongoose.set('strictQuery', false);
-// const dbUri = `mongodb+srv://betarena:Q0F7cWPrWgBNxbLD@cluster0.pz1a4xo.mongodb.net/betarena?retryWrites=true&w=majority`
-const dbUri = `mongodb://localhost:27017/betarena`;
+// mongoose.set('strictQuery', false);
+const dbUri = `mongodb+srv://highscoreteh:eNiIQbm4ZMSor8VL@cluster0.xmpkpjc.mongodb.net/betarena?retryWrites=true&w=majority`
+
+// const dbUri = `mongodb://localhost:27017/betarena`;
 mongoose.connect(dbUri, { useNewUrlParser: true,  useUnifiedTopology: true })
     .then((result)=>  console.log('Database connected'))
     .catch((err)=> console.log(err))

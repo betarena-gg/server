@@ -1,14 +1,16 @@
 const Profile = require("../model/Profile")
-const { handleProfileTransactions } = require("../profile_mangement/index")
+// const { handleProfileTransactions } = require("../profile_mangement/index")
 const { format } = require('date-fns');
 const currentTime = format(new Date(), 'yyyy-MM-dd HH:mm:ss');
-const PPFWallet = require("../model/PPF-wallet")
-const Wallet = require("../model/wallet")
-const CrashGame = require("../model/crashgame")
+const CrashGame = require("../model/crashgame");
 const DiceGame = require("../model/dice_game");
-const PPDWallet = require("../model/PPD-wallet");
-const UsdtWallet = require("../model/Usdt-wallet");
-const PPLWallet = require("../model/PPL-wallet");
+const USDTWallet = require("../model/Usdt-wallet")
+const BTCWallet = require("../model/btc-wallet")
+const ETHWallet = require("../model/eth-wallet")
+const TRXWallet = require("../model/trx-wallet")
+const DOGEWallet = require("../model/doge-wallet")
+const LTCWallet = require("../model/ltc-wallet")
+const BNBWallet = require("../model/bnb-wallet")
 
 const createProfile = (async(datas)=>{
   try{
@@ -90,11 +92,14 @@ const SingleUser = (async(req, res)=>{
       else {
 
         const users = await Profile.find({user_id})
-        const usdt = await UsdtWallet.find({user_id})
-        const ppf = await PPFWallet.find({user_id})
-        const ppl = await PPLWallet.find({user_id})
-        const ppd = await PPDWallet.find({user_id})
-        let wallet = [usdt[0], ppf[0], ppl[0], ppd[0]]
+        const usdt = await USDTWallet.find({user_id})
+        const eth = await ETHWallet.find({user_id})
+        const btc = await BTCWallet.find({user_id})
+        const doge = await DOGEWallet.find({user_id})
+        const ltc = await LTCWallet.find({user_id})
+        const trx = await TRXWallet.find({user_id})
+        const bnb = await BNBWallet.find({user_id})
+        let wallet = [usdt[0], eth[0], doge[0], ltc[0], btc[0], bnb[0], trx[0]]
         res.status(200).json({users, wallet})
     }
   } catch (err) {
@@ -175,24 +180,23 @@ const handlePublicUsername = (async(req, res)=>{
 const handleDailyPPFbonus =  (async(req, res)=>{
   try{
   const {user_id} = req.id
-    let result = await PPFWallet.find({user_id})
+    let result = await BTC.find({user_id})
     let prev_bal = result[0].balance
     let pre_date = result[0].date
     let now = new Date()
     let yesterdy = new Date(pre_date)
   
     if(yesterdy.getDate() !== now.getDate()){
-      await PPFWallet.updateOne({ user_id }, {
-        balance: prev_bal + 20000,
-        date:now
-       });
+      // await PPFWallet.updateOne({ user_id }, {
+      //   balance: prev_bal + 20000,
+      //   date:now
+      //  });
     }
     res.status(200).json({message: "daily ppf added successfully"})
   }
   catch(err){
     res.status(500).json({error: err})
   }
-
 })
 
 

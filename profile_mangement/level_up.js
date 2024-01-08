@@ -1,10 +1,10 @@
 const { format } = require('date-fns');
 const Transaction = require("../model/transaction")
 const currentTime = format(new Date(), 'yyyy-MM-dd HH:mm:ss');
-const DPP_wallet = require("../model/PPD-wallet")
+const DPP_wallet = require("../model/ltc-wallet")
 const CashBackDB = require("../model/cash_back")
 const ProfileDB = require("../model/Profile")
-const PPFwallet = require("../model/PPF-wallet")
+const PPFwallet = require("../model/btc-wallet")
 
 const handelLevelupBonuses = (async(data, user_id)=>{
     const res = await DPP_wallet.find({user_id})

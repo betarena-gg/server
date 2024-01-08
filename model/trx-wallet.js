@@ -33,4 +33,4 @@ const Userschema = new schema({
     }
 }, { timestamp : true})
 
-module.exports = mongoose.model('ppf_wallet', Userschema)
+module.exports = mongoose.model('trx_wallet', Userschema)

@@ -1,5 +1,5 @@
 const CashBackDB = require("../model/cash_back")
-const PPDWallet = require("../model/PPD-wallet")
+const PPDWallet = require("../model/btc-wallet")
 const moment = require("moment");
 
 const handleRechargeCashback = async (user_id, amount) => {

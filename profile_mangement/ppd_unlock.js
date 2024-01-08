@@ -1,5 +1,5 @@
 const PPDunlockDB = require("../model/ppd_unlock")
-const PPD_wallet = require("../model/PPD-wallet")
+const PPD_wallet = require("../model/btc-wallet")
 
 
 const handleCreatePPDunlocked = (async (user_id) => {

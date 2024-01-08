@@ -1,7 +1,7 @@
 const Wallet = require("../model/wallet")
-const PPDWallet = require("../model/PPD-wallet")
-const PPLWallet = require("../model/PPL-wallet")
-const PPFWallet = require("../model/PPF-wallet")
+const PPDWallet = require("../model/ltc-wallet")
+const PPLWallet = require("../model/btc-wallet")
+const PPFWallet = require("../model/bnb-wallet")
 const USDTWallet = require("../model/Usdt-wallet")
 
 // ============= get wallet  ====================

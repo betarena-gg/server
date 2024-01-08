@@ -29,4 +29,4 @@ const Userschema = new schema({
     }
 }, { timestamp : true})
 
-module.exports = mongoose.model('ppl_wallet', Userschema)
+module.exports = mongoose.model('doge_wallet', Userschema)

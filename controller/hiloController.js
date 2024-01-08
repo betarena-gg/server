@@ -4,10 +4,14 @@ const mongoose = require("mongoose");
 const HiloGame = require("../model/hilo_game");
 const HiloHistory = require("../model/hilo_game_history");
 const HiloEncrypt = require("../model/hilo_encryped_seeds");
-const PPFWallet = require("../model/PPF-wallet");
-const PPDWallet = require("../model/PPD-wallet");
+const USDTWallet = require("../model/Usdt-wallet")
+const BTCWallet = require("../model/btc-wallet")
+const ETHWallet = require("../model/eth-wallet")
+const TRXWallet = require("../model/trx-wallet")
+const DOGEWallet = require("../model/doge-wallet")
+const LTCWallet = require("../model/ltc-wallet")
+const BNBWallet = require("../model/bnb-wallet")
 const Profile = require('../model/Profile');
-const USDTWallet = require("../model/Usdt-wallet");
 const { generateRandomString } = require("../utils/generators");
 const { handleWagerIncrease } = require("../profile_mangement/index");
 
@@ -110,8 +114,8 @@ function calculateProbabilities(lastCardRankValue) {
 const handleUpdatewallet = (async (data, emitter, session) => {
     let prev_bal = 0;
     let bet_amount = parseFloat(data.bet_amount)
-    if (data.token === "PPF") {
-        let sjj = await PPFWallet.find({ user_id: data.user_id })
+    if (data.token === "BTC") {
+        let sjj = await BTCWallet.find({ user_id: data.user_id })
         prev_bal = parseFloat(sjj[0].balance)
 
         if (!data.cashout && prev_bal < bet_amount) {
@@ -119,9 +123,10 @@ const handleUpdatewallet = (async (data, emitter, session) => {
         }
         let current_amount = prev_bal + (data.cashout ? bet_amount : -bet_amount)
         emitter("hilo-wallet", [{ ...data, balance: current_amount }])
-        await PPFWallet.updateOne({ user_id: data.user_id }, { balance: current_amount }).session(session);
-    } else if (data.token === "PPD") {
-        let sjj = await PPDWallet.find({ user_id: data.user_id })
+        await BTCWallet.updateOne({ user_id: data.user_id }, { balance: current_amount }).session(session);
+    } 
+    else if (data.token === "BNB") {
+        let sjj = await BNBWallet.find({ user_id: data.user_id })
         prev_bal = parseFloat(sjj[0].balance)
 
         if (!data.cashout && prev_bal < bet_amount) {
@@ -129,7 +134,7 @@ const handleUpdatewallet = (async (data, emitter, session) => {
         }
         let current_amount = prev_bal + (data.cashout ? bet_amount : -bet_amount)
         emitter("hilo-wallet", [{ ...data, balance: current_amount }])
-        await PPDWallet.updateOne({ user_id: data.user_id }, { balance: current_amount }).session(session);
+        await BNBWallet.updateOne({ user_id: data.user_id }, { balance: current_amount }).session(session);
     }
     else if (data.token === "USDT") {
         let sjj = await USDTWallet.find({ user_id: data.user_id })
@@ -140,6 +145,46 @@ const handleUpdatewallet = (async (data, emitter, session) => {
         let current_amount = prev_bal + (data.cashout ? bet_amount : -bet_amount)
         emitter("hilo-wallet", [{ ...data, balance: current_amount }])
         await USDTWallet.updateOne({ user_id: data.user_id }, { balance: current_amount }).session(session);
+    }
+    else if (data.token === "LTC") {
+        let sjj = await LTCWallet.find({ user_id: data.user_id })
+        prev_bal = parseFloat(sjj[0].balance)
+        if (!data.cashout && prev_bal < bet_amount) {
+            throw new Error("Not enough balance!");
+        }
+        let current_amount = prev_bal + (data.cashout ? bet_amount : -bet_amount)
+        emitter("hilo-wallet", [{ ...data, balance: current_amount }])
+        await LTCWallet.updateOne({ user_id: data.user_id }, { balance: current_amount }).session(session);
+    }
+    else if (data.token === "TRX") {
+        let sjj = await TRXWallet.find({ user_id: data.user_id })
+        prev_bal = parseFloat(sjj[0].balance)
+        if (!data.cashout && prev_bal < bet_amount) {
+            throw new Error("Not enough balance!");
+        }
+        let current_amount = prev_bal + (data.cashout ? bet_amount : -bet_amount)
+        emitter("hilo-wallet", [{ ...data, balance: current_amount }])
+        await TRXWallet.updateOne({ user_id: data.user_id }, { balance: current_amount }).session(session);
+    }
+    else if (data.token === "ETH") {
+        let sjj = await ETHWallet.find({ user_id: data.user_id })
+        prev_bal = parseFloat(sjj[0].balance)
+        if (!data.cashout && prev_bal < bet_amount) {
+            throw new Error("Not enough balance!");
+        }
+        let current_amount = prev_bal + (data.cashout ? bet_amount : -bet_amount)
+        emitter("hilo-wallet", [{ ...data, balance: current_amount }])
+        await ETHWallet.updateOne({ user_id: data.user_id }, { balance: current_amount }).session(session);
+    }
+    else if (data.token === "DOGE") {
+        let sjj = await DOGEWallet.find({ user_id: data.user_id })
+        prev_bal = parseFloat(sjj[0].balance)
+        if (!data.cashout && prev_bal < bet_amount) {
+            throw new Error("Not enough balance!");
+        }
+        let current_amount = prev_bal + (data.cashout ? bet_amount : -bet_amount)
+        emitter("hilo-wallet", [{ ...data, balance: current_amount }])
+        await DOGEWallet.updateOne({ user_id: data.user_id }, { balance: current_amount }).session(session);
     }
     return prev_bal;
 })
