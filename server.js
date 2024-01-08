@@ -85,7 +85,6 @@ app.get("/", (req, res)=>{
 
 // mongoose.set('strictQuery', false);
 const dbUri = `mongodb+srv://highscoreteh:eNiIQbm4ZMSor8VL@cluster0.xmpkpjc.mongodb.net/betarena?retryWrites=true&w=majority`
-
 // const dbUri = `mongodb://localhost:27017/betarena`;
 mongoose.connect(dbUri, { useNewUrlParser: true,  useUnifiedTopology: true })
     .then((result)=>  console.log('Database connected'))
