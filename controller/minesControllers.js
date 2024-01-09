@@ -171,9 +171,25 @@ const handleCashout = (async(req,res)=>{
     if(data.bet_token_name === "USDT"){
       prev_bal = await USDTWallet.find({user_id})
     }
-    if(data.bet_token_name === "PPF"){
-      prev_bal = await PPFWallet.find({user_id})
+    if(data.bet_token_name === "BTC"){
+      prev_bal = await BTCWallet.find({user_id})
     }
+    if(data.bet_token_name === "LTC"){
+      prev_bal = await LTCWallet.find({user_id})
+    }
+    if(data.bet_token_name === "TRX"){
+      prev_bal = await TRXWallet.find({user_id})
+    }
+    if(data.bet_token_name === "BNB"){
+      prev_bal = await BNBWallet.find({user_id})
+    }
+    if(data.bet_token_name === "DOGE"){
+      prev_bal = await DOGEWallet.find({user_id})
+    }
+    if(data.bet_token_name === "ETH"){
+      prev_bal = await ETHWallet.find({user_id})
+    }
+
     let skjb = {
       is_active: true,
       balance: prev_bal[0].balance + data.profit,

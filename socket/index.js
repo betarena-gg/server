@@ -36,7 +36,7 @@ async function createsocket(httpServer) {
 
     // let fghhs = await DiceGame.find()
     let activeplayers = []
-    const fetchActivePlayers = (async (e) => {
+    const fetchDiceActivePlayers = (async (e) => {
         if (activeplayers.length > 21) {
             activeplayers.shift()
             activeplayers.push(e)
@@ -46,13 +46,10 @@ async function createsocket(httpServer) {
         io.emit("dice-gamePLayers", activeplayers)
     })
 
-    // setInterval(()=>{
-    //     fetchActivePlayers()
-    // }, 1000)
 
     const handleDiceBEt = (async (data) => {
         let events = data[0]
-        fetchActivePlayers(events)
+        fetchDiceActivePlayers(events)
 
         //Get New Bet and Update Latest Bet UI
         latestBetUpdate(events, "Dice Game")
@@ -266,6 +263,17 @@ async function createsocket(httpServer) {
         io.emit("active-bets-crash", active_crash)
     })
 
+    let liveMinesplayers = []
+    const handleMinesLiveUpdate = ((e)=>{
+        if (liveMinesplayers.length > 21) {
+            liveMinesplayers.shift()
+            liveMinesplayers.push(e)
+        } else {
+            liveMinesplayers.push(e)
+        }
+        io.emit("mines-hs", liveMinesplayers)
+    })
+
     let newMessage = await Chats.find()
     const handleNewChatMessages = (async (data) => {
         io.emit("new-messages", newMessage)
@@ -299,6 +307,10 @@ async function createsocket(httpServer) {
             handleDicePoints(data)
         })
 
+        socket.on("mines-history", data => {
+            handleMinesLiveUpdate(data)
+        })
+
         socket.on("message", data => {
             newMessage.push(data)
             handleNewChatMessages(data)
@@ -319,7 +331,6 @@ async function createsocket(httpServer) {
             });
         });
         socket.on("hilo-bet", data => {
-            
             handleHiloBet(data, (event, payload) => {
                 io.emit(event, payload);
             });

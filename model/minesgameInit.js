@@ -26,27 +26,11 @@ const Userschema = new schema({
         type: Number,
         required: true,
     },
-    bet_id: {
-        type: Number,
-        required: true,
-    },
     bet_token_name: {
         type: String,
         required: true,
     },
     bet_token_img: {
-        type: String,
-        required: true,
-    },
-    payout: {
-        type: Number,
-        required: true,
-    },
-    hidden_from_public: {
-        type: Boolean,
-        required: true,
-    },
-    game_hash: {
         type: String,
         required: true,
     },
@@ -72,30 +56,6 @@ const Userschema = new schema({
     },
     nonce:{
         type: Number,
-        required: true,
-    },
-    game_type: {
-        type: String,
-        required: true,
-    },
-    chance: {
-        type: String,
-        required: true,
-    },
-    auto_cashout: {
-        type: Number,
-        required: true,
-    },
-    user_status: {
-        type: Boolean,
-        required: true,
-    },
-    game_status: {
-        type: Boolean,
-        required: true,
-    },
-    time: {
-        type: Date,
         required: true,
     },
     cashout:{
