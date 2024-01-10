@@ -5,7 +5,6 @@ const str = 'abcde @';
 const last = str.charAt(str.length - 1);
 // console.log(last); // 👉️ e
 
-
 const ChatMessages = (async (req, res)=>{ 
   //   const {data} = req.body
   //   const user_id = req.id;

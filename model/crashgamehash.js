@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const schema = mongoose.Schema
 
 const Hashschema = new schema({
-    game_hash: {
+    hash: {
         type: String,
         required: true,
     },
